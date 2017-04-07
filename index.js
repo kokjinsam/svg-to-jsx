@@ -1,5 +1,9 @@
 const SVGO = require('svgo')
-const { camelCase } = require('voca')
+const camelCase = require('camel-case')
+
+/**
+ * Contsants
+ */
 
 const ATTRIBUTES_REGEX = /[\w-:]+(?=\s*=\s*".*?")/g
 
@@ -42,7 +46,13 @@ const optimize = (SVGString, config) => {
   const svgo = new SVGO(config)
 
   return new Promise(
-    (resolve, reject) => svgo.optimize(SVGString, ({ data }) => resolve(data))
+    (resolve, reject) => svgo.optimize(SVGString, ({ error, data }) => {
+
+      if (error) reject(error)
+
+      resolve(data)
+
+    })
   )
 
 }
@@ -84,8 +94,4 @@ const transform = (SVGString, config) => {
 
 }
 
-const SVGString = `<svg id="Layer_1" xlink:href="#test21" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 396.218 396.218" style="enable-background:new 0 0 396.218 396.218;" xml:space="preserve">
-  <path style="fill:#193651;" d="M242.941,37.075l-9.891,7.434l12.347,16.097c-27.216-6.206-55.661-4.978-81.584,4.331l4.331,11.766 c24.76-8.663,51.911-9.891,77.253-3.103l-17.907,13.576l7.434,9.891l34.004-25.341L242.941,37.075z"/>
-</svg>`
-
-transform(SVGString, { cleanupIDs: true }).then(data => console.log(data))
+module.exports = transform
