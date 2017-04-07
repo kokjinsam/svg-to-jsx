@@ -4,7 +4,7 @@
 ### Install ⚙
 
 ```
-yarn add svg-to-jsx --dev
+yarn add svg-to-jsx
 ```
 
 ### Use 🛠
