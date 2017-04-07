@@ -9,7 +9,7 @@ yarn add svg-to-jsx --dev
 
 ### What it can do ✅
 
-`svg-to-jsx` uses `svg-go` and accepts all the config that are available in [`svg-go`](https://github.com/svg/svgo#what-it-can-do) like this
+`svg-to-jsx` uses `svgo` and accepts all the config that are available in [`svgo`](https://github.com/svg/svgo#what-it-can-do)
 
 ```
 const transform = require('svg-to-jsx')
@@ -41,4 +41,4 @@ fs.readFile(filepath, 'utf8', (error, data) => {
 
 ### TODO 📝
 
--[] GUI
+- [] GUI
