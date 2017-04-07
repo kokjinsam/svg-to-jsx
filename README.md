@@ -7,16 +7,6 @@
 yarn add svg-to-jsx --dev
 ```
 
-### What it can do ✅
-
-`svg-to-jsx` uses `svgo` and accepts all the config that are available in [`svgo`](https://github.com/svg/svgo#what-it-can-do)
-
-```
-const transform = require('svg-to-jsx')
-
-tansform(someSVG, { cleanupIDs: false, convertPathData: true, ... })
-```
-
 ### Use 🛠
 
 ```
@@ -36,7 +26,14 @@ fs.readFile(filepath, 'utf8', (error, data) => {
     .catch(error => console.log(error))
 
 })
+```
 
+### What it can do ✅
+
+`svg-to-jsx` uses `svgo` and accepts all the config that are available in [`svgo`](https://github.com/svg/svgo#what-it-can-do)
+
+```
+tansform(someSVG, { cleanupIDs: false, convertPathData: true, ... })
 ```
 
 ### TODO 📝
