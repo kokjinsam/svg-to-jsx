@@ -4,7 +4,7 @@
 ### Install ⚙
 
 ```
-yarn add svg-to-jsx
+npm i @balajmarius/svg-to-jsx
 ```
 
 ### Use 🛠
