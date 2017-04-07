@@ -12,7 +12,7 @@ yarn add @balajmarius/svg-to-jsx --dev
 ```
 const fs = require('fs')
 const path = require('path')
-const transform = require('svg-to-jsx')
+const transform = require('@balajmarius/svg-to-jsx')
 
 const filepath = path.resolve(__dirname, 'test.svg')
 
