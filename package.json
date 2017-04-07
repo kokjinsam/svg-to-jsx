@@ -1,0 +1,26 @@
+{
+  "name": "svg-to-jsx",
+  "version": "1.0.0",
+  "description": "Transform SVG elements to JSX",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/balajmarius/svg-to-jsx.git"
+  },
+  "keywords": [
+    "svg",
+    "jsx",
+    "transform"
+  ],
+  "author": "Balaj Marius <balajmarius93@gmail.com> (http://balajmarius.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/balajmarius/svg-to-jsx/issues"
+  },
+  "homepage": "https://github.com/balajmarius/svg-to-jsx#readme",
+  "dependencies": {
+    "svgo": "^0.7.2",
+    "voca": "^1.3.0"
+  }
+}
