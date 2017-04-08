@@ -3,8 +3,6 @@
 
 [![npm version](https://badge.fury.io/js/%40balajmarius%2Fsvg-to-jsx.svg)](https://badge.fury.io/js/%40balajmarius%2Fsvg-to-jsx)
 
-<img src="http://i.imgur.com/gCNuOF5.png" />
-
 ### Install ⚙
 
 ```
