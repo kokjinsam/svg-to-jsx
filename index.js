@@ -2,7 +2,7 @@ const SVGO = require('svgo')
 const camelCase = require('camel-case')
 
 /**
- * Contsants
+ * Constants
  */
 
 const ATTRIBUTES_REGEX = /[\w-:]+(?=\s*=\s*".*?")/g
