@@ -70,7 +70,7 @@ const JSXify = SVGString => {
   attributes.forEach(attribute => {
 
     const regex = new RegExp(attribute, 'g')
-    const jsxAttribute = camelCase(attribute)
+    const jsxAttribute = attribute !== 'class' ? camelCase(attribute) : 'className'
 
     transformedSVG = transformedSVG.replace(regex, jsxAttribute)
 
