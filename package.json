@@ -1,6 +1,6 @@
 {
   "name": "@balajmarius/svg-to-jsx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transform SVG elements to JSX",
   "main": "index.js",
   "scripts": {},
