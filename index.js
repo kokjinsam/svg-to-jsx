@@ -21,6 +21,10 @@ const DEFAULT_CONFIG = {
   cleanupIDs: true,
 }
 
+const CUSTOM_ATTRIBUTES = {
+  class: 'className',
+}
+
 /**
  * Create config {Object}
  * @returns {Object}
@@ -70,7 +74,7 @@ const JSXify = SVGString => {
   attributes.forEach(attribute => {
 
     const regex = new RegExp(attribute, 'g')
-    const jsxAttribute = attribute !== 'class' ? camelCase(attribute) : 'className'
+    const jsxAttribute = CUSTOM_ATTRIBUTES[attribute] ? CUSTOM_ATTRIBUTES[attribute] : camelCase(attribute)
 
     transformedSVG = transformedSVG.replace(regex, jsxAttribute)
 
