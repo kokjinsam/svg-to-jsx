@@ -5,7 +5,7 @@ const camelCase = require('camel-case')
  * Constants
  */
 
-const ATTRIBUTES_REGEX = /[\w-:]+(?=\s*=\s*".*?")/g
+const ATTRIBUTES_REGEX = /\b([\w-:]+)(?=\s*=\s*".*?")(?![^]*\b\1\b)/g
 
 const DEFAULT_CONFIG = {
   removeDoctype: true,
