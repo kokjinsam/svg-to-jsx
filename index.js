@@ -91,7 +91,7 @@ const JSXify = SVGString => {
  * @returns JSX valid SVG {String}
  */
 
-const transform = (SVGString, config) => {
+const transform = (SVGString, config={}) => {
 
   const optimizerConfig = Object.assign({}, DEFAULT_CONFIG, config)
 
