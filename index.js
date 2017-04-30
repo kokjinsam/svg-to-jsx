@@ -8,13 +8,15 @@ const camelCase = require('camel-case')
 const ATTRIBUTES_REGEX = /[\w-:]+(?=\s*=\s*".*?")/g
 
 const DEFAULT_CONFIG = {
+  removeDoctype: true,
   removeEmptyContainers: true,
   convertStyleToAttrs: true,
   removeUselessDefs: true,
-  removeScriptElement: true,
   removeMetadata: true,
   removeEmptyAttrs: true,
   cleanupEnableBackground: true,
+  removeUnknownsAndDefaults: true,
+  removeScriptElement: true,
   removeStyleElement: true,
   cleanupAttrs: true,
   convertColors: true,
