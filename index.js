@@ -1,40 +1,70 @@
-const SVGO = require('svgo')
+const Svgo = require('svgo')
+const cheerio = require('cheerio')
 const camelCase = require('camel-case')
+const transform = require('css-to-react-native')
+
+/**
+ * Config
+ */
+
+const CONFIG = {
+  plugins: [
+    { removeScriptElement: true },
+    { removeStyleElement: true },
+    { convertShapeToPath: false },
+    { removeHiddenElems: false },
+    { convertPathData: false },
+    { mergePaths: false },
+    { cleanupIDs: false },
+    { removeTitle: true },
+    { removeDesc: true },
+  ]
+}
+
 
 /**
  * Constants
  */
 
-const ATTRIBUTES_REGEX = /[\w-:]+(?=\s*=\s*".*?")/g
-
-const DEFAULT_CONFIG = {
-  removeScriptElement: true,
-  removeStyleElement: true,
-  convertShapeToPath: false,
-  removeHiddenElems: false,
-  convertPathData: false,
-  mergePaths: false,
-  cleanupIDs: false,
-  removeTitle: true,
-  removeDesc: true,
-}
-
-const CUSTOM_ATTRIBUTES = {
+const JSX_ATTRIBUTES = {
   class: 'className',
 }
 
+const REGEX = {
+  QUOTE: /\"/g,
+  WHITE_SPACE: /\s/g,
+  JSX: /"({{)|(}})"/g,
+}
+
+const INLINE_STYLE = 'style'
+const EMPTY_STRING = ''
+
 /**
- * Create config {Object}
+ * Parse CSS
+ * @returns {Array}
+ */
+
+const parseCss = cssString => {
+
+  const trimmedCss = cssString.replace(REGEX.WHITE_SPACE, EMPTY_STRING)
+  const parsedCss = trimmedCss.split(';').map(proprieties => proprieties.split(':'))
+
+  return parsedCss.filter(proprieties => proprieties.length > 1)
+
+}
+
+/**
+ * Reactify CSS
  * @returns {Object}
  */
 
-const createConfig = config => {
+const transformCss = cssString => {
 
-  const plugins = []
+  const parsedCss = parseCss(cssString)
+  const transformedCss = JSON.stringify(transform.default(parsedCss))
+  const reactCss = transformedCss.replace(REGEX.QUOTE, EMPTY_STRING)
 
-  Object.keys(config).map(prop => plugins.push({ [prop]: config[prop] }))
-
-  return { plugins }
+  return `{${reactCss}}`
 
 }
 
@@ -43,19 +73,19 @@ const createConfig = config => {
  * @returns optimized SVG {String}
  */
 
-const optimize = (SVGString, config) => {
+const optimize = svgString => {
 
-  const svgo = new SVGO(config)
+  const svgo = new Svgo(CONFIG)
 
-  return new Promise(
-    (resolve, reject) => svgo.optimize(SVGString, ({ error, data }) => {
+  return new Promise((resolve, reject) => svgo.optimize(svgString, response => {
 
-      if (error) reject(error)
+    const { error, data } = response
 
-      resolve(data)
+    if (error) reject(error)
 
-    })
-  )
+    resolve(data)
+
+  }))
 
 }
 
@@ -64,21 +94,39 @@ const optimize = (SVGString, config) => {
  * @returns SVG with camel case attributes {String}
  */
 
-const JSXify = SVGString => {
+const jsxify = svgString => {
 
-  let transformedSVG = SVGString
-  const attributes = [...new Set(SVGString.match(ATTRIBUTES_REGEX))]
+  const parsedHtml = cheerio.load(svgString)
+  const elements = parsedHtml('*')
 
-  attributes.forEach(attribute => {
+  elements.each(function() {
 
-    const regex = new RegExp(attribute, 'g')
-    const jsxAttribute = CUSTOM_ATTRIBUTES[attribute] ? CUSTOM_ATTRIBUTES[attribute] : camelCase(attribute)
+    const currentElement = parsedHtml(this)
+    const attributes = currentElement.attr()
 
-    transformedSVG = transformedSVG.replace(regex, jsxAttribute)
+    for (let attribute in attributes) {
+
+      let attributeValue = attributes[attribute]
+      let jsxAttribute = camelCase(attribute)
+
+      if (JSX_ATTRIBUTES[attribute])
+        jsxAttribute = JSX_ATTRIBUTES[attribute]
+
+      if (attribute === INLINE_STYLE)
+        attributeValue = transformCss(attributeValue)
+
+      currentElement
+        .removeAttr(attribute)
+        .attr(jsxAttribute, attributeValue)
+
+    }
 
   })
 
-  return transformedSVG
+  const transformedSvg = parsedHtml.html()
+
+  // replace quotes before and after {{}}
+  return transformedSvg.replace(REGEX.JSX, '$1$2')
 
 }
 
@@ -87,13 +135,8 @@ const JSXify = SVGString => {
  * @returns JSX valid SVG {String}
  */
 
-const transform = (SVGString, config={}) => {
+const svgToJsx = svgString => optimize(svgString)
+  .then(jsxify)
 
-  const optimizerConfig = Object.assign({}, DEFAULT_CONFIG, config)
 
-  return optimize(SVGString, createConfig(optimizerConfig))
-    .then(JSXify)
-
-}
-
-module.exports = transform
+module.exports = svgToJsx
