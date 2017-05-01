@@ -30,13 +30,12 @@ fs.readFile(filepath, 'utf8', (error, data) => {
 })
 ```
 
-### What it can do ✅
+### What it does ✅
 
-`svg-to-jsx` uses `svgo` and accepts all the config that are available in [`svgo`](https://github.com/svg/svgo#what-it-can-do)
-
-```
-tansform(someSVG, { cleanupIDs: false, convertPathData: true, ... })
-```
+- Convert attributes to valid JSX attributes
+- Convert CSS to Javascript
+- Convert CSS (fill, display, ..) to attributes
+- Remove useless attributes
 
 ### TODO 📝
 
