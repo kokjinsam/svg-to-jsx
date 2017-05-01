@@ -5,22 +5,18 @@ const camelCase = require('camel-case')
  * Constants
  */
 
-const ATTRIBUTES_REGEX = /\b([\w-:]+)(?=\s*=\s*".*?")(?![^]*\b\1\b)/g
+const ATTRIBUTES_REGEX = /[\w-:]+(?=\s*=\s*".*?")/g
 
 const DEFAULT_CONFIG = {
-  removeDoctype: true,
-  removeEmptyContainers: true,
-  convertStyleToAttrs: true,
-  removeUselessDefs: true,
-  removeMetadata: true,
-  removeEmptyAttrs: true,
-  cleanupEnableBackground: true,
-  removeUnknownsAndDefaults: true,
   removeScriptElement: true,
   removeStyleElement: true,
-  cleanupAttrs: true,
-  convertColors: true,
-  cleanupIDs: true,
+  convertShapeToPath: false,
+  removeHiddenElems: false,
+  convertPathData: false,
+  mergePaths: false,
+  cleanupIDs: false,
+  removeTitle: true,
+  removeDesc: true,
 }
 
 const CUSTOM_ATTRIBUTES = {
@@ -71,7 +67,7 @@ const optimize = (SVGString, config) => {
 const JSXify = SVGString => {
 
   let transformedSVG = SVGString
-  const attributes = SVGString.match(ATTRIBUTES_REGEX)
+  const attributes = [...new Set(SVGString.match(ATTRIBUTES_REGEX))]
 
   attributes.forEach(attribute => {
 
