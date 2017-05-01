@@ -39,4 +39,4 @@ fs.readFile(filepath, 'utf8', (error, data) => {
 
 ### TODO 📝
 
-- [ ] GUI
+- [ ] Single/double quotes option
