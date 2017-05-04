@@ -28,6 +28,7 @@ const CONFIG = {
 
 const JSX_ATTRIBUTES = {
   class: 'className',
+  viewbox: 'viewBox',
 }
 
 const REGEX = {
