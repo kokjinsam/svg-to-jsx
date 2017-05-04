@@ -68,7 +68,7 @@ const transformCss = cssString => {
   const reactCss = proprieties.reduce((accumulator, proprietyName, index) => {
 
     const value = transformedCss[proprietyName]
-    const separator = index < proprieties.length-1 ? ',' : EMPTY_STRING
+    const separator = (index < proprieties.length-1) ? ',' : EMPTY_STRING
 
     return accumulator += `${proprietyName}:${JSON.stringify(value)}${separator}`
 
