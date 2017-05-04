@@ -62,10 +62,19 @@ const parseCss = cssString => {
 const transformCss = cssString => {
 
   const parsedCss = parseCss(cssString)
-  const transformedCss = JSON.stringify(transform.default(parsedCss))
-  const reactCss = transformedCss.replace(REGEX.QUOTE, EMPTY_STRING)
+  const transformedCss = transform.default(parsedCss)
+  const proprieties = Object.keys(transformedCss)
 
-  return `{${reactCss}}`
+  const reactCss = proprieties.reduce((accumulator, proprietyName, index) => {
+
+    const value = transformedCss[proprietyName]
+    const separator = index < proprieties.length-1 ? ',' : EMPTY_STRING
+
+    return accumulator += `${proprietyName}:${JSON.stringify(value)}${separator}`
+
+  }, EMPTY_STRING)
+
+  return `{{${reactCss}}}`
 
 }
 
@@ -97,7 +106,7 @@ const optimize = svgString => {
 
 const jsxify = svgString => {
 
-  const parsedHtml = cheerio.load(svgString)
+  const parsedHtml = cheerio.load(svgString, { decodeEntities: false })
   const elements = parsedHtml('*')
 
   elements.each(function() {
